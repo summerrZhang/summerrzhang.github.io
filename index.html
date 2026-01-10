@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pixel Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- MAIN SCENE (Room) -->
+    <!-- We add class "game-layer" to anything that needs to be scaled -->
+    <div id="scene" class="game-layer">
+        <img src="assets/bg.png" id="background" alt="Room Background" />
+        
+        <div class="clickable" id="laptop">
+            <img src="assets/laptop.png" alt="Laptop" />
+        </div>  
+    </div>
+
+    <!-- MODAL 1: LAPTOP SCREEN -->
+    <div id="laptop-modal" class="modal-overlay">
+        <!-- The window-container is what gets scaled -->
+        <div class="window-container game-layer">
+            
+            <div id="laptop-screen-content">
+                <!-- Close Button -->
+                <div class="close-btn" id="close-laptop">X</div>
+
+                <img src="assets/screen.png" id="screen" alt="OS Screen" />
+                
+                <!-- PDF Icon -->
+                <div class="clickable desktop-icon" id="pdf-icon">
+                    <img src="assets/pdf.png" alt="Resume PDF" />
+                </div>  
+
+                <!-- Folder Icon -->
+                <div class="clickable desktop-icon" id="folder-icon">
+                    <img src="assets/folder.png" alt="Projects Folder" />
+                </div>  
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: PROJECTS WINDOW -->
+    <div id="projects-modal" class="modal-overlay">
+        <div class="window-container game-layer">
+            <!-- You can create a new image for an open folder window, 
+                 or style a div to look like a window -->
+            <div class="pixel-window">
+                <div class="window-bar">
+                    <span>C:/Projects</span>
+                    <div class="close-btn-small" id="close-projects">X</div>
+                </div>
+                <div class="window-body">
+                    <p>Project 1: Pixel Game</p>
+                    <p>Project 2: Website</p>
+                    <p>Project 3: App</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

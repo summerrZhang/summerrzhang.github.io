@@ -1,0 +1,166 @@
+/* RESET */
+body {
+  margin: 0;
+  background: #1b1b1b;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; /* Prevent scrolling */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* --- SCALING & POSITIONING --- */
+
+/* The base size of your pixel art */
+.game-layer {
+  width: 640px;
+  height: 360px;
+  position: absolute; /* Allows them to stack */
+  transform-origin: center center; /* Scale from center */
+  image-rendering: pixelated; /* CRISP PIXELS */
+}
+
+/* Background Scene */
+#scene {
+  z-index: 1;
+  position: relative; /* relative allows the laptop to be absolute inside it */
+}
+
+#background {
+  width: 100%;
+  height: 100%;
+}
+
+/* --- CLICKABLE OBJECTS --- */
+.clickable {
+  position: absolute;
+  cursor: pointer;
+}
+
+.clickable:hover img {
+  filter: drop-shadow(0px 0px 5px #ffd966);
+  transform: translateY(-2px); /* Little hop effect */
+  transition: transform 0.1s;
+}
+
+/* Laptop Position on Desk (Adjust these numbers to fit your bg.png) */
+#laptop {
+  left: 190px;
+  top: 60px;
+}
+
+/* --- MODALS (The black overlays) --- */
+.modal-overlay {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Dim background */
+  z-index: 100; /* Sit on top of everything */
+  
+  /* Flexbox to center the scaled content */
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- LAPTOP SCREEN CONTENT --- */
+#laptop-screen-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#screen {
+  width: 100%;
+  height: 100%;
+}
+
+/* Desktop Icons Positions */
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-size: 10px;
+  text-shadow: 1px 1px 0 #000;
+}
+
+#pdf-icon {
+  left: 149px;
+  top: 91px;
+}
+
+#folder-icon {
+  left: 222px;
+  top: 91px;
+}
+
+/* --- CLOSE BUTTON (Red X) --- */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: red;
+  color: white;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 2px 2px 0 #000;
+  z-index: 10;
+}
+
+.close-btn:hover {
+  background: darkred;
+}
+
+/* --- PROJECT MODAL STYLING (CSS Window) --- */
+.pixel-window {
+  position: absolute;
+  left: 100px; /* Center-ish relative to the 640x360 canvas */
+  top: 50px;
+  width: 440px;
+  height: 260px;
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-right-color: #404040;
+  border-bottom-color: #404040;
+  display: flex;
+  flex-direction: column;
+}
+
+.window-bar {
+  background: #000080;
+  color: white;
+  padding: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.close-btn-small {
+  background: #c0c0c0;
+  color: black;
+  border: 1px solid white;
+  border-right-color: black;
+  border-bottom-color: black;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  line-height: 14px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.window-body {
+  padding: 20px;
+  color: black;
+}
