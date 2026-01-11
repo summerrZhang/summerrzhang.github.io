@@ -11,6 +11,13 @@ body {
   font-family: 'Courier New', Courier, monospace;
 }
 
+#mood-box {
+  font-family: monospace;
+  color: #0f0;
+  padding: 12px;
+  width: fit-content;
+}
+
 /* --- SCALING & POSITIONING --- */
 
 /* The base size of your pixel art */

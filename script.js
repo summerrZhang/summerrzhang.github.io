@@ -70,3 +70,50 @@ window.addEventListener("resize", scaleScene);
 
 // Initial Scale
 scaleScene();
+
+// const email = "hanyuanzhang0501@gmail.com";
+// const url = "https://api.allorigins.win/raw?url=https://xml.imood.org/query.cgi?email=" + encodeURIComponent(email);
+// fetch(url)
+//   .then(response => response.text())
+//   .then(text => {
+//     console.log("RAW XML from IMood:");
+//     console.log(text);
+//   })
+//   .catch(error => {
+//     console.error("Fetch error:", error);
+//   });
+
+async function loadmood() {
+  const email = "hanyuanzhang0501@gmail.com";
+  const url = "https://api.allorigins.win/raw?url=https://xml.imood.org/query.cgi?email=" + encodeURIComponent(email);
+
+
+  const response = await fetch(url);
+  const xmlText = await response.text();
+
+  const parser = new DOMParser();
+  const xml = parser.parseFromString(xmlText, "text/xml");
+
+
+  const mood = xml.querySelector("base")?.textContent;
+  const faceID = xml.querySelector("face")?.textContent;
+
+  document.getElementById("mood-text").textContent =
+    `Mood: ${mood}`;
+
+  
+  console.log(xmlText);
+  const resFace = await fetch("https://api.allorigins.win/raw?url=https://xml.imood.org/faces.cgi")
+  const xmlTextFace = await resFace.text();
+  const parserFace = new DOMParser();
+  const xmlFace = parser.parseFromString(xmlTextFace, "text/xml");
+
+  const faceList = Array.from(xmlFace.querySelectorAll("face"));
+  const faceIcon = faceList[faceID].querySelector("link")?.textContent;
+  // console.log(xmlFace);
+  // console.log(faceIcon);
+  document.getElementById("mood-face").src = faceIcon;
+
+}
+
+loadmood();
