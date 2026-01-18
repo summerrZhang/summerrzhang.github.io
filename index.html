@@ -1,44 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Pixel Portfolio</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-    <!-- MAIN SCENE (Room) -->
-    <div id="mood-box">
-        <p id="mood-text">Loading mood...</p>
-        <p><a href="https://www.imood.com/users/xiaoshuimm"><img id="mood-face" alt="Mood face" /></a></p>
-    </div>
-    <!-- We add class "game-layer" to anything that needs to be scaled -->
     <div id="scene" class="game-layer">
-        <img src="assets/bg.png" id="background" alt="Room Background" />
+        <img src="assets/bg_construction.png" id="background" alt="Room Background" />
         
         <div class="clickable" id="laptop">
             <img src="assets/laptop.png" alt="Laptop" />
         </div>  
+
+        <div id="mood">
+            <img src="assets/mood.png" alt="Mood" />
+        </div>  
+
+        <div id="mark">
+            <img src="assets/exclamation_mark.png" alt="Exclamation Mark" />
+        </div>  
+
+        <div class="clickable" id="me">
+            <img src="assets/me.png" alt="Me" />
+        </div>  
+
+        <div id="mood-box">
+            <p id="mood-text">Loading mood...</p>
+            <p>
+                <a href="https://www.imood.com/users/xiaoshuimm" target="_blank">
+                    <img id="mood-face" alt="Mood face" />
+                </a>
+            </p>
+        </div>
+
+        <div class="clickable" id="todo">
+            <img src="assets/todo.png" alt="Todo" />
+        </div> 
+
+        <div class="clickable" id="painting">
+            <img src="assets/painting.png" alt="Paintings" />
+        </div> 
+
+        <div id="intro-dialog" class="dialog-overlay" style="display: none;">
+            <div class="rpg-box intro-box">
+                <div class="rpg-layout">
+                    <div class="rpg-content">
+                        <h3 id="dialog-name">Summer</h3>
+                        <p id="dialog-text"></p> 
+                        <div class="next-arrow">▼</div>
+                    </div>
+                    <div id="avatar">
+                        <img src="assets/me_big.png" alt="avatar" />
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- MODAL 1: LAPTOP SCREEN -->
     <div id="laptop-modal" class="modal-overlay">
-        <!-- The window-container is what gets scaled -->
         <div class="window-container game-layer">
-            
             <div id="laptop-screen-content">
-                <!-- Close Button -->
                 <div class="close-btn" id="close-laptop">X</div>
-
                 <img src="assets/screen.png" id="screen" alt="OS Screen" />
                 
-                <!-- PDF Icon -->
                 <div class="clickable desktop-icon" id="pdf-icon">
                     <img src="assets/pdf.png" alt="Resume PDF" />
                 </div>  
 
-                <!-- Folder Icon -->
                 <div class="clickable desktop-icon" id="folder-icon">
                     <img src="assets/folder.png" alt="Projects Folder" />
                 </div>  
@@ -46,25 +77,59 @@
         </div>
     </div>
 
-    <!-- MODAL 2: PROJECTS WINDOW -->
+
     <div id="projects-modal" class="modal-overlay">
         <div class="window-container game-layer">
-            <!-- You can create a new image for an open folder window, 
-                 or style a div to look like a window -->
-            <div class="pixel-window">
-                <div class="window-bar">
-                    <span>C:/Projects</span>
+            
+            <div class="rpg-box project-window">
+                <div class="rpg-window-header">
+                    <span>[ C:/PROJECTS ]</span>
                     <div class="close-btn-small" id="close-projects">X</div>
                 </div>
-                <div class="window-body">
-                    <p>Project 1: Pixel Game</p>
-                    <p>Project 2: Website</p>
-                    <p>Project 3: App</p>
+
+                <div class="project-list">
+                    
+                    <div class="project-item">
+                        <div class="project-text">
+                            <h4>1. Pixel Studio Portfolio <a href="https://github.com/yourlink" target="_blank">[GitHub]</a></h4>
+                            <p>Hand-drawn pixel art portfolio built with pure HTML, CSS, and JS. No frameworks—just clean, fast, and lightweight code.</p>
+                        </div>
+                        <div class="project-figure"><img src="assets/icon_portfolio.png" alt="fig"></div>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-text">
+                            <h4>2. AI Job Scraper <a href="#" target="_blank">[GitHub]</a></h4>
+                            <p>Python tool that scrapes LinkedIn to filter out jobs requiring Dutch or lacking sponsorship. Uses an AI Agent to match job descriptions with my profile.</p>
+                        </div>
+                        <div class="project-figure"><img src="assets/icon_scraper.png" alt="fig"></div>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-text">
+                            <h4>3. Airship 3D Reconstruction <a href="#" target="_blank">[GitHub]</a></h4>
+                            <p>University Thesis: 3D scene reconstruction using Gaussian Splatting for airship navigation and environment mapping.</p>
+                        </div>
+                        <div class="project-figure"><img src="assets/icon_thesis.png" alt="fig"></div>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-text">
+                            <h4>4. CV Crochet Counter <a href="#" target="_blank">[GitHub]</a></h4>
+                            <p>Computer Vision app that tracks hand movements to recognize stitch patterns and count them automatically while I watch videos.</p>
+                        </div>
+                        <div class="project-figure"><img src="assets/icon_crochet.png" alt="fig"></div>
+                    </div>
+
+                    <div class="project-item footer-item">
+                        <p>...More secrets being coded. Check back later!</p>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

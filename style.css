@@ -1,173 +1,314 @@
-/* RESET */
+/* --- 1. RESET & BASE --- */
 body {
-  margin: 0;
-  background: #1b1b1b;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden; /* Prevent scrolling */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    background: #1b1b1b;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
 }
 
-#mood-box {
-  font-family: monospace;
-  color: #0f0;
-  padding: 12px;
-  width: fit-content;
+/* --- 2. ANIMATIONS --- */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
 }
 
-/* --- SCALING & POSITIONING --- */
+@keyframes pulse-glow {
+    0%, 100% { filter: drop-shadow(0 0 2px rgba(255, 230, 0, 0.5)); }
+    50% { filter: drop-shadow(0 0 5px rgb(255, 60, 0)); }
+}
 
-/* The base size of your pixel art */
+/* --- 3. SCALING ENGINE --- */
 .game-layer {
-  width: 640px;
-  height: 360px;
-  position: absolute; /* Allows them to stack */
-  transform-origin: center center; /* Scale from center */
-  image-rendering: pixelated; /* CRISP PIXELS */
+    width: 640px;
+    height: 360px;
+    position: absolute;
+    transform-origin: center center;
+    image-rendering: pixelated;
 }
 
-/* Background Scene */
 #scene {
-  z-index: 1;
-  position: relative; /* relative allows the laptop to be absolute inside it */
+    z-index: 1;
+    position: relative;
+    background: #000;
 }
 
 #background {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
-/* --- CLICKABLE OBJECTS --- */
+/* --- 4. CLICKABLES & HOVERS --- */
 .clickable {
-  position: absolute;
-  cursor: pointer;
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.1s ease;
 }
 
+/* Solid Pixel Outline Hover Effect */
 .clickable:hover img {
-  filter: drop-shadow(0px 0px 5px #ffd966);
-  transform: translateY(-2px); /* Little hop effect */
-  transition: transform 0.1s;
+    filter: 
+        drop-shadow(1px 0 0 #a2fd10) 
+        drop-shadow(-1px 0 0 #a2fd10) 
+        drop-shadow(0 1px 0 #a2fd10) 
+        drop-shadow(0 -1px 0 #a2fd10);
 }
 
-/* Laptop Position on Desk (Adjust these numbers to fit your bg.png) */
-#laptop {
-  left: 190px;
-  top: 60px;
+
+
+/* Object Positions */
+#laptop { left: 190px; top: 70px; }
+#mood   { left: 430px; top: 40px; position: absolute; }
+#me     { left: 300px; top: 120px; }
+#todo   { left: 440px; top: 95px; }
+#painting { left: 350px; top: 50px; }
+
+#mark {
+    position: absolute;
+    left: 312px;
+    top: 92px;
+    z-index: 10;
+    pointer-events: none; /* Let clicks pass to 'Me' sprite */
+    animation: float 2s ease-in-out infinite, pulse-glow 2s ease-in-out infinite;
 }
 
-/* --- MODALS (The black overlays) --- */
+/* --- 5. MOOD BOX --- */
+#mood-box {
+    position: absolute;
+    left: 418px;
+    top: 52px;
+    z-index: 2;
+    width: 60px;
+    font-size: 7px;
+    font-weight: bold;
+    color: #3b3b3b;
+    text-align: center;
+}
+
+#mood-text { white-space: pre-line; margin: 0; }
+#mood-face { width: 13px; margin-top: -7px;}
+
+/* --- 6. MODALS & OVERLAYS --- */
 .modal-overlay {
-  display: none; /* Hidden by default */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Dim background */
-  z-index: 100; /* Sit on top of everything */
-  
-  /* Flexbox to center the scaled content */
-  justify-content: center;
-  align-items: center;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
 }
 
-/* --- LAPTOP SCREEN CONTENT --- */
-#laptop-screen-content {
-  position: relative;
-  width: 100%;
-  height: 100%;
+/* Desktop Metaphor Styling */
+#laptop-screen-content { position: relative; width: 100%; height: 100%; }
+#screen { width: 100%; height: 100%; }
+.desktop-icon { position: absolute; }
+#pdf-icon { left: 149px; top: 91px; }
+#folder-icon { left: 222px; top: 91px; }
+
+
+/* --- SHARED RPG BOX STYLE (The "Skin") --- */
+.rpg-box {
+    background-color: #2c2c2c;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 0 #000;
+    image-rendering: pixelated;
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+    position: relative;
 }
 
-#screen {
-  width: 100%;
-  height: 100%;
+/* --- INTRO DIALOG BOX (Specific Size) --- */
+.intro-box {
+    width: 420px;
+    height: 70px;
+    padding: 12px;
 }
 
-/* Desktop Icons Positions */
-.desktop-icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
-  font-size: 10px;
-  text-shadow: 1px 1px 0 #000;
+/* --- PROJECT MODAL (RPG THEME) --- */
+
+.project-window {
+    width: 480px; 
+    height: 280px; 
+    padding: 0; /* Header handles its own padding */
+    overflow: hidden;
 }
 
-#pdf-icon {
-  left: 149px;
-  top: 91px;
+.window-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#folder-icon {
-  left: 222px;
-  top: 91px;
+/* Header for the Project Window */
+.rpg-window-header {
+    background: #444;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid white;
+    color: #a2fd10;
+    font-size: 12px;
 }
 
-/* --- CLOSE BUTTON (Red X) --- */
+.project-list {
+    flex: 1;
+    overflow-y: auto;  /* Enable scrolling if too many projects */
+    padding: 15px;
+    scrollbar-width: thin;
+    scrollbar-color: #a2fd10 #2c2c2c;
+}
+
+/* Individual Project Style */
+.project-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #555;
+    padding: 10px 0;
+    margin-bottom: 5px;
+}
+
+.project-text {
+    flex: 1;
+    padding-right: 15px;
+}
+
+.project-text h4 {
+    margin: 0;
+    color: #a2fd10;
+    font-size: 14px;
+}
+
+.project-text h4 a {
+    color: #fff;
+    font-size: 10px;
+    text-decoration: none;
+    margin-left: 10px;
+    opacity: 0.7;
+}
+
+.project-text h4 a:hover { opacity: 1; color: #a2fd10; }
+
+.project-text p {
+    margin: 5px 0 0 0;
+    font-size: 11px;
+    color: #ddd;
+    line-height: 1.4;
+}
+
+/* The Figure on the right */
+.project-figure {
+    width: 50px;
+    height: 50px;
+    background: #444; /* Placeholder background */
+    border: 1px solid #888;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.project-figure img {
+    max-width: 90%;
+    image-rendering: pixelated;
+}
+
+.footer-item {
+    border-bottom: none;
+    justify-content: center;
+    opacity: 0.6;
+    font-style: italic;
+    font-size: 10px;
+}
+
+/* CUSTOM SCROLLBAR for that pixel feel */
+.project-list::-webkit-scrollbar { width: 8px; }
+.project-list::-webkit-scrollbar-track { background: #2c2c2c; }
+.project-list::-webkit-scrollbar-thumb { background: #a2fd10; border: 2px solid #2c2c2c; }
+
+/* Buttons */
 .close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: red;
-  color: white;
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  line-height: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  border: 2px solid white;
-  box-shadow: 2px 2px 0 #000;
-  z-index: 10;
-}
-
-.close-btn:hover {
-  background: darkred;
-}
-
-/* --- PROJECT MODAL STYLING (CSS Window) --- */
-.pixel-window {
-  position: absolute;
-  left: 100px; /* Center-ish relative to the 640x360 canvas */
-  top: 50px;
-  width: 440px;
-  height: 260px;
-  background: #c0c0c0;
-  border: 2px solid #fff;
-  border-right-color: #404040;
-  border-bottom-color: #404040;
-  display: flex;
-  flex-direction: column;
-}
-
-.window-bar {
-  background: #000080;
-  color: white;
-  padding: 4px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
+    position: absolute;
+    top: 8px; right: 8px;
+    background: #ff4444; color: white;
+    width: 18px; height: 18px;
+    text-align: center; font-size: 12px;
+    cursor: pointer; border: 2px solid white;
 }
 
 .close-btn-small {
-  background: #c0c0c0;
-  color: black;
-  border: 1px solid white;
-  border-right-color: black;
-  border-bottom-color: black;
-  cursor: pointer;
-  width: 16px;
-  height: 16px;
-  line-height: 14px;
-  text-align: center;
-  font-size: 12px;
+    background: #c0c0c0; width: 16px; height: 16px;
+    border: 1px solid white; border-right: 1px solid #000; border-bottom: 1px solid #000;
+    color: black; cursor: pointer; text-align: center; line-height: 14px;
 }
 
-.window-body {
-  padding: 20px;
-  color: black;
+/* --- 7. RPG DIALOG BOX --- */
+.dialog-overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    z-index: 999;
+}
+
+
+.rpg-layout {
+    display: flex;
+    height: 100%;
+}
+
+.rpg-content {
+    flex: 1;
+    position: relative;
+}
+
+.rpg-content h3 {
+    margin: 0;
+    color: #a2fd10;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.rpg-content p {
+    font-size: 11px;
+    line-height: 1.4;
+    margin: 4px 0 0 0;
+    color: #eee;
+}
+
+#avatar {
+    width: 60px;
+    border-left: 2px solid #555;
+    margin-left: 12px;
+    padding-left: 12px;
+    display: flex;
+    align-items: center;
+}
+
+#avatar img {
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+}
+
+.next-arrow {
+    position: absolute;
+    bottom: -5px;
+    right: 5px;
+    color: #a2fd10;
+    font-size: 10px;
+    animation: float 1s infinite;
 }
