@@ -89,6 +89,84 @@ elements.mark.addEventListener('click', startIntroduction);
 elements.me.addEventListener('click', startIntroduction);
 elements.modals.dialog.addEventListener('click', () => toggleModal('dialog', false));
 
+// --- ART WALL: DRAGGING & LOCAL STORAGE ---
+
+let highestZ = 10;
+
+// 1. Function to SAVE positions to Local Storage
+function saveArtPositions() {
+    const positions = {};
+    document.querySelectorAll('.drag-item').forEach(item => {
+        positions[item.id] = {
+            left: item.style.left,
+            top: item.style.top
+        };
+    });
+    localStorage.setItem('artPositions', JSON.stringify(positions));
+}
+
+// 2. Function to LOAD positions from Local Storage
+function loadArtPositions() {
+    const savedData = localStorage.getItem('artPositions');
+    if (savedData) {
+        const positions = JSON.parse(savedData);
+        document.querySelectorAll('.drag-item').forEach(item => {
+            if (positions[item.id]) {
+                item.style.left = positions[item.id].left;
+                item.style.top = positions[item.id].top;
+            }
+        });
+    }
+}
+
+function makeDraggable(element) {
+    let isDragging = false;
+    let startX, startY, initialLeft, initialTop;
+
+    element.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        element.style.zIndex = ++highestZ;
+        
+        startX = e.clientX;
+        startY = e.clientY;
+        initialLeft = element.offsetLeft;
+        initialTop = element.offsetTop;
+
+        element.style.cursor = 'grabbing';
+        e.preventDefault(); 
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+
+        // Calculate movement based on current scale
+        const scale = parseFloat(document.getElementById("scene").style.transform.replace('scale(', '')) || 1;
+        
+        const dx = (e.clientX - startX) / scale;
+        const dy = (e.clientY - startY) / scale;
+
+        element.style.left = `${initialLeft + dx}px`;
+        element.style.top = `${initialTop + dy}px`;
+    });
+
+    window.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            element.style.cursor = 'grab';
+            saveArtPositions(); // Save coordinates to browser memory
+        }
+    });
+}
+
+// INITIALIZE: Load positions and make items draggable
+window.addEventListener("DOMContentLoaded", () => {
+    loadArtPositions();
+    document.querySelectorAll('.drag-item').forEach(item => {
+        makeDraggable(item);
+    });
+});
+
+
 // --- 4. MOOD API (iMood) ---
 // async function loadMood() {
 //     const email = "hanyuanzhang0501@gmail.com";

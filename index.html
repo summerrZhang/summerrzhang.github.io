@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixel Portfolio</title>
+    <title>Summer's Portfolio</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -80,6 +80,45 @@
         </div>
     </div>
 
+    <div id="art-modal" class="modal-overlay">
+        <div class="window-container game-layer">
+            <div class="rpg-box art-window" style="padding: 0; position: relative;">
+                
+                <div class="close-btn-small" id="close-art" style="position: absolute; top: 10px; right: 10px; z-index: 100;">X</div>
+
+                <div class="art-canvas" id="art-canvas">
+                    <div class="drag-item" id="art-1" style="top: 20px; left: 120px;">
+                        <div class="tape"><img src="assets/tape_2.png"/></div>
+                        <img src="assets/painting_1.jpg" draggable="false" />
+                    </div>
+
+                    <div class="drag-item" id="art-2" style="top: 125px; left: 260px;">
+                        <div class="tape">
+                            <img src="assets/tape_1.png"/>
+                        </div>
+                        <img src="assets/painting_2.jpg" draggable="false" />
+                    </div>
+
+                    <div class="drag-item" id="art-3" style="top: 140px; left: 40px;">
+                        <div class="tape"><img src="assets/tape_1.png"/></div>
+                        <img src="assets/painting_3.jpg" draggable="false" />
+                    </div>
+
+                    <div class="drag-item" id="art-4" style="top: 120px; left: 430px;">
+                        <div class="tape"><img src="assets/tape_1.png"/></div>
+                        <img src="assets/painting_4.jpg" draggable="false" />
+                    </div>
+
+                    <div class="drag-item" id="art-5" style="top: 5px; left: 350px;">
+                        <div class="tape"><img src="assets/tape_2.png"/></div>
+                        <img src="assets/painting_5.jpg" draggable="false" />
+                    </div>
+
+                    <div class="wall-hint">Here are my paintings, drag them to arrange the wall</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="projects-modal" class="modal-overlay">
         <div class="window-container game-layer">
