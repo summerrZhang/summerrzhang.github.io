@@ -70,7 +70,7 @@ body {
 #me     { left: 300px; top: 120px; }
 #todo   { left: 440px; top: 95px; }
 #painting { left: 350px; top: 50px; }
-
+/* #counter { left: 420px; top: 120px; } */
 #mark {
     position: absolute;
     left: 312px;
@@ -83,18 +83,19 @@ body {
 /* --- 5. MOOD BOX --- */
 #mood-box {
     position: absolute;
-    left: 418px;
+    left: 420px;
     top: 52px;
     z-index: 2;
     width: 60px;
-    font-size: 7px;
+    font-size: 8px;
     font-weight: bold;
     color: #3b3b3b;
     text-align: center;
 }
 
 #mood-text { white-space: pre-line; margin: 0; }
-#mood-face { width: 13px; margin-top: -7px;}
+/* #mood-face { width: 13px; margin-top: -7px;} */
+#mood-img { width: 40px; padding-left: 11px; }
 
 /* --- 6. MODALS & OVERLAYS --- */
 .modal-overlay {

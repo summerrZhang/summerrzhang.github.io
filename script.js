@@ -90,37 +90,37 @@ elements.me.addEventListener('click', startIntroduction);
 elements.modals.dialog.addEventListener('click', () => toggleModal('dialog', false));
 
 // --- 4. MOOD API (iMood) ---
-async function loadMood() {
-    const email = "hanyuanzhang0501@gmail.com";
-    const proxy = "https://api.allorigins.win/raw?url=";
-    const queryUrl = `${proxy}${encodeURIComponent(`https://xml.imood.org/query.cgi?email=${email}`)}`;
-    const facesUrl = `${proxy}${encodeURIComponent(`https://xml.imood.org/faces.cgi`)}`;
+// async function loadMood() {
+//     const email = "hanyuanzhang0501@gmail.com";
+//     const proxy = "https://api.allorigins.win/raw?url=";
+//     const queryUrl = `${proxy}${encodeURIComponent(`https://xml.imood.org/query.cgi?email=${email}`)}`;
+//     const facesUrl = `${proxy}${encodeURIComponent(`https://xml.imood.org/faces.cgi`)}`;
 
-    try {
-        // Fetch Mood
-        const response = await fetch(queryUrl);
-        const xmlText = await response.text();
-        const xml = new DOMParser().parseFromString(xmlText, "text/xml");
+//     try {
+//         // Fetch Mood
+//         const response = await fetch(queryUrl);
+//         const xmlText = await response.text();
+//         const xml = new DOMParser().parseFromString(xmlText, "text/xml");
 
-        const mood = xml.querySelector("base")?.textContent || "Unknown";
-        const faceID = xml.querySelector("face")?.textContent;
+//         const mood = xml.querySelector("base")?.textContent || "Unknown";
+//         const faceID = xml.querySelector("face")?.textContent;
 
-        elements.moodText.textContent = `Mood:\n ${mood}`;
+//         elements.moodText.textContent = `Mood:\n ${mood}`;
 
-        // Fetch Face Icon
-        if (faceID) {
-            const resFace = await fetch(facesUrl);
-            const xmlTextFace = await resFace.text();
-            const xmlFace = new DOMParser().parseFromString(xmlTextFace, "text/xml");
-            const faceList = Array.from(xmlFace.querySelectorAll("face"));
-            const faceIcon = faceList[faceID]?.querySelector("link")?.textContent;
+//         // Fetch Face Icon
+//         if (faceID) {
+//             const resFace = await fetch(facesUrl);
+//             const xmlTextFace = await resFace.text();
+//             const xmlFace = new DOMParser().parseFromString(xmlTextFace, "text/xml");
+//             const faceList = Array.from(xmlFace.querySelectorAll("face"));
+//             const faceIcon = faceList[faceID]?.querySelector("link")?.textContent;
             
-            if (faceIcon) elements.moodFace.src = faceIcon;
-        }
-    } catch (err) {
-        console.error("Mood error:", err);
-        elements.moodText.textContent = "Mood: Resting";
-    }
-}
+//             if (faceIcon) elements.moodFace.src = faceIcon;
+//         }
+//     } catch (err) {
+//         console.error("Mood error:", err);
+//         elements.moodText.textContent = "Mood: Resting";
+//     }
+// }
 
-loadMood();
+// loadMood();
