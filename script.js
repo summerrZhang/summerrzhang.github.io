@@ -166,39 +166,190 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+const grasses = document.querySelectorAll('.grass');
+const grassHint = document.getElementById('grass-hint');
 
-// --- 4. MOOD API (iMood) ---
-// async function loadMood() {
-//     const email = "hanyuanzhang0501@gmail.com";
-//     const proxy = "https://api.allorigins.win/raw?url=";
-//     const queryUrl = `${proxy}${encodeURIComponent(`https://xml.imood.org/query.cgi?email=${email}`)}`;
-//     const facesUrl = `${proxy}${encodeURIComponent(`https://xml.imood.org/faces.cgi`)}`;
+const grassMessages = [
+    "Wow...You just touched grass...",
+    "Maybe you can also try to go outside...",
+    "Is it... scary?",
+    "You're doing great."
+];
 
-//     try {
-//         // Fetch Mood
-//         const response = await fetch(queryUrl);
-//         const xmlText = await response.text();
-//         const xml = new DOMParser().parseFromString(xmlText, "text/xml");
+let messageIndex = 0;
+let isCurrentlyTouching = false;
 
-//         const mood = xml.querySelector("base")?.textContent || "Unknown";
-//         const faceID = xml.querySelector("face")?.textContent;
+// Initialize the first message
+grassHint.innerText = grassMessages[messageIndex];
 
-//         elements.moodText.textContent = `Mood:\n ${mood}`;
+window.addEventListener('mousemove', (e) => {
+    let anyGrassMoved = false;
 
-//         // Fetch Face Icon
-//         if (faceID) {
-//             const resFace = await fetch(facesUrl);
-//             const xmlTextFace = await resFace.text();
-//             const xmlFace = new DOMParser().parseFromString(xmlTextFace, "text/xml");
-//             const faceList = Array.from(xmlFace.querySelectorAll("face"));
-//             const faceIcon = faceList[faceID]?.querySelector("link")?.textContent;
+    // Get the current scale of your game (e.g., 1.5 or 0.8)
+    const scale = parseFloat(elements.scene.style.transform.replace('scale(', '')) || 1;
+
+    grasses.forEach(Grass => {
+        const rect = Grass.getBoundingClientRect();
+        
+        // Calculate the center of the Grass's root
+        const GrassRootX = rect.left + rect.width / 2;
+        const GrassRootY = rect.bottom;
+
+        // Calculate distance between mouse and Grass root
+        const dx = e.clientX - GrassRootX;
+        const dy = e.clientY - GrassRootY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        // Max interaction distance (e.g., 60 pixels)
+        const maxDist = 20 * scale;
+
+        if (distance < maxDist) {
+            anyGrassMoved = true;
             
-//             if (faceIcon) elements.moodFace.src = faceIcon;
-//         }
-//     } catch (err) {
-//         console.error("Mood error:", err);
-//         elements.moodText.textContent = "Mood: Resting";
-//     }
-// }
+            const intensity = (maxDist - distance) / maxDist;
+            const tiltAngle = (dx / scale) * intensity * 3; 
 
-// loadMood();
+            // Apply rotation and a slight "squish" effect
+            Grass.style.transform = `rotate(${tiltAngle}deg) scaleY(${1 - (intensity * 0.1)})`;
+        } else {
+            // Snap back to original position
+            Grass.style.transform = `rotate(0deg) scaleY(1)`;
+        }
+    });
+
+    // Show/Hide the "Touch Grass" text
+    if (anyGrassMoved) {
+        if (!isCurrentlyTouching) {
+            grassHint.classList.add('show');
+            isCurrentlyTouching = true;
+        }
+    } else {
+        if (isCurrentlyTouching) {
+            grassHint.classList.remove('show');
+            isCurrentlyTouching = false;
+            
+            // Wait for the text to hide, then change it to the next message
+            setTimeout(() => {
+                messageIndex++;
+                if (messageIndex >= grassMessages.length) {
+                    messageIndex = 0; // Loop back to the start
+                }
+                grassHint.innerText = grassMessages[messageIndex];
+            }, 300); // This matches your CSS transition time
+        }
+    }
+});
+
+
+const imageCache = {};
+
+async function getCachedImage(src) {
+    if (imageCache[src]) return imageCache[src];
+    return new Promise((res) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => {
+            imageCache[src] = img;
+            res(img);
+        };
+    });
+}
+
+async function processAllPaintings() {
+    const pSize = parseInt(document.getElementById('pixelSize').value);
+    const palSize = parseInt(document.getElementById('paletteSize').value);
+    const dither = document.getElementById('dither').checked;
+
+    const canvases = document.querySelectorAll('.pixel-painting');
+    
+    for (let canvas of canvases) {
+        const src = canvas.getAttribute('data-src');
+        const img = await getCachedImage(src);
+        applyPixelLogic(canvas, img, pSize, palSize, dither);
+    }
+}
+
+function applyPixelLogic(out, img, pixelSize, paletteSize, dither) {
+    const small = document.getElementById('small-proc');
+    const outCtx = out.getContext('2d');
+    const sCtx = small.getContext('2d');
+
+    // Set sizes
+    out.width = 150; // Fixed display width
+    out.height = (img.height / img.width) * 150;
+    
+    const sw = Math.max(1, Math.round(out.width / pixelSize));
+    const sh = Math.max(1, Math.round(out.height / pixelSize));
+    small.width = sw;
+    small.height = sh;
+
+    // 1. Draw to small canvas
+    sCtx.imageSmoothingEnabled = true;
+    sCtx.drawImage(img, 0, 0, sw, sh);
+
+    // 2. Get data and Quantize/Dither
+    let imgData = sCtx.getImageData(0, 0, sw, sh);
+    
+    // Logic from your demo script
+    let levels = Math.max(1, Math.round(Math.pow(paletteSize, 1/3)));
+    if(dither) {
+        floydSteinbergDither(imgData, levels);
+    } else {
+        for(let i=0; i<imgData.data.length; i+=4) {
+            imgData.data[i] = quantChannel(imgData.data[i], levels);
+            imgData.data[i+1] = quantChannel(imgData.data[i+1], levels);
+            imgData.data[i+2] = quantChannel(imgData.data[i+2], levels);
+        }
+    }
+
+    sCtx.putImageData(imgData, 0, 0);
+
+    // 3. Upscale to output
+    outCtx.imageSmoothingEnabled = false;
+    outCtx.clearRect(0,0, out.width, out.height);
+    outCtx.drawImage(small, 0, 0, sw, sh, 0, 0, out.width, out.height);
+}
+
+// Re-using your specific math functions
+function quantChannel(v, levels) {
+    const step = 255/(levels-1);
+    return Math.round(v/step)*step;
+}
+
+function floydSteinbergDither(imageData, levels) {
+    const w = imageData.width;
+    const h = imageData.height;
+    const data = imageData.data;
+    const step = levels <= 1 ? 255 : 255/(levels-1);
+    const clamp = (v) => Math.max(0, Math.min(255, Math.round(v)));
+
+    for(let y=0; y<h; y++) {
+        for(let x=0; x<w; x++) {
+            const i = (y*w + x)*4;
+            const oldR = data[i], oldG = data[i+1], oldB = data[i+2];
+            const newR = Math.round(oldR/step)*step;
+            const newG = Math.round(oldG/step)*step;
+            const newB = Math.round(oldB/step)*step;
+            data[i] = newR; data[i+1] = newG; data[i+2] = newB;
+
+            const errR = oldR - newR, errG = oldG - newG, errB = oldB - newB;
+            
+            const dist = (nx, ny, f) => {
+                if(nx<0 || nx>=w || ny<0 || ny>=h) return;
+                const i2 = (ny*w + nx)*4;
+                data[i2] = clamp(data[i2] + errR*f);
+                data[i2+1] = clamp(data[i2+1] + errG*f);
+                data[i2+2] = clamp(data[i2+2] + errB*f);
+            };
+            dist(x+1, y, 7/16); dist(x-1, y+1, 3/16); dist(x, y+1, 5/16); dist(x+1, y+1, 1/16);
+        }
+    }
+}
+
+// --- EVENT LISTENERS ---
+['pixelSize', 'paletteSize', 'dither'].forEach(id => {
+    document.getElementById(id).addEventListener('input', processAllPaintings);
+});
+
+// Initial render
+window.addEventListener('DOMContentLoaded', processAllPaintings);

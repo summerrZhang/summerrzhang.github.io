@@ -8,7 +8,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Courier New', Courier, monospace;
+    /* font-family: 'Courier New', Courier, monospace; */
+    font-family: 'VT323', 'Courier New', Courier, monospace;
 }
 
 /* --- 2. ANIMATIONS --- */
@@ -68,8 +69,10 @@ body {
 #laptop { left: 190px; top: 70px; }
 #mood   { left: 430px; top: 40px; position: absolute; }
 #me     { left: 300px; top: 120px; }
-#todo   { left: 440px; top: 95px; }
+#todo   { left: 440px; top: 95px; position: absolute;}
 #painting { left: 350px; top: 50px; }
+#plant  { left: 150px; top: 202px; position: absolute; }
+
 /* #counter { left: 420px; top: 120px; } */
 #mark {
     position: absolute;
@@ -87,7 +90,7 @@ body {
     top: 52px;
     z-index: 2;
     width: 60px;
-    font-size: 8px;
+    font-size: 9px;
     font-weight: bold;
     color: #3b3b3b;
     text-align: center;
@@ -162,7 +165,7 @@ body {
     align-items: center;
     border-bottom: 2px solid white;
     color: #a2fd10;
-    font-size: 10px;
+    font-size: 11px;
 }
 
 .project-list {
@@ -196,7 +199,7 @@ body {
 
 .project-text h4 a {
     color: #fff;
-    font-size: 8px;
+    font-size: 10px;
     text-decoration: none;
     margin-left: 10px;
     opacity: 0.7;
@@ -206,7 +209,7 @@ body {
 
 .project-text p {
     margin: 5px 0 0 0;
-    font-size: 9px;
+    font-size: 10px;
     color: #ddd;
     line-height: 1.4;
 }
@@ -289,7 +292,7 @@ body {
 }
 
 .rpg-content p {
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.4;
     margin: 4px 0 0 0;
     color: #eee;
@@ -342,7 +345,7 @@ body {
     bottom: 10px;
     right: 15px;
     font-size: 9px;
-    color: #444;
+    color: #f4f4f4;
     pointer-events: none; /* So it doesn't block dragging */
 }
 
@@ -352,6 +355,36 @@ body {
     color: white;
     border: 2px solid #ffffff;
 }
+
+
+.art-controls-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: #333;
+    border-top: 2px solid #a2fd10;
+    padding: 5px 10px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    font-size: 10px;
+    color: #a2fd10;
+    z-index: 100;
+}
+
+.art-controls-bar input[type="range"] {
+    accent-color: #a2fd10;
+    vertical-align: middle;
+    width: 100px;
+}
+
+.pixel-painting {
+    display: block;
+    max-width: 150px;
+    max-height: 150px;
+    border: 2px solid #a2fd10;
+    background: #000;
+}
+
 
 /* --- DRAGGABLE ITEMS --- */
 /* (These stay the same, but ensuring they are here for you) */
@@ -384,4 +417,40 @@ body {
     left: 50%;         /* Move to the middle of the container */
     transform: translateX(-50%); /* Pull it back by half its own width to center */
     z-index: 10;
+}
+
+
+#grasspot { left: 205px; top: 254px; position: absolute; }
+.grass {
+    position: absolute;
+    bottom: 23px; 
+    transform-origin: bottom center; 
+    transition: transform 0.1s ease-out;
+    z-index: 10;
+    image-rendering: pixelated;
+    pointer-events: auto; /* The mouse only sees these */
+}
+
+.grass-hint {
+    position: absolute;
+    top: -30px;
+    left: -10px;
+    background: #ffffff;
+    border: 2px solid #a2fd10;
+    color: #333;
+    font-size: 8px;
+    padding: 2px 5px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 20;
+    pointer-events: none;
+}
+
+/* When the grass is "active" (controlled via JS) */
+.grass-hint.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-5px);
 }
