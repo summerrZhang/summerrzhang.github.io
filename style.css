@@ -266,16 +266,17 @@ a, button, .clickable, .drag-item, .pixel-checkbox-container, input[type="range"
     position: absolute;
     top: 46px; 
     right: 102px;
-    background: #ff4444; color: white;
-    width: 14px; height: 14px;
-    text-align: center; font-size: 10px;
-    cursor: pointer; border: 2px solid white;
+    background: #a2fd10; color: #333;
+    width: 11px; height: 11px;
+    text-align: center; font-size: 11px;
+    cursor: pointer; border: 2px solid #333;
 }
 
 .close-btn-small {
-    background: #c0c0c0; width: 14px; height: 14px;
-    border: 1px solid white; border-right: 1px solid #000; border-bottom: 1px solid #000;
-    color: black; cursor: pointer; text-align: center; line-height: 14px;
+    background: #a2fd10; color: #333;
+    border: 2px solid #333;
+    width: 11px; height: 11px;
+    cursor: pointer; text-align: center; line-height: 14px;
 }
 
 /* --- 7. RPG DIALOG BOX --- */
@@ -368,9 +369,9 @@ a, button, .clickable, .drag-item, .pixel-checkbox-container, input[type="range"
 
 /* Styling the close button to look good on the wall */
 #close-art {
-    background: #ff4444;
-    color: white;
-    border: 2px solid #ffffff;
+    background: #a2fd10;
+    color: #333;
+    border: 2px solid #333;
 }
 
 
