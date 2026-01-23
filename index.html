@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Summer's Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css?v=1.0.1" />
     <link href='https://fonts.googleapis.com/css?family=VT323' rel='stylesheet'>
 </head>
 <body>
@@ -158,7 +158,12 @@
                     <div class="art-controls-bar">
                         <label>Pixel: <input id="pixelSize" type="range" min="1" max="32" value="2"></label>
                         <label>Colors: <input id="paletteSize" type="range" min="3" max="128" value="100"></label>
-                        <label><input id="dither" type="checkbox" checked> Dither</label>
+                        <!-- <label><input id="dither" type="checkbox" checked> Dither</label> -->
+                         <label class="pixel-checkbox-container">
+                            <input id="dither" type="checkbox" checked>
+                            <span class="pixel-check-box"></span>
+                            Dither
+                        </label>
                         <div class="wall-hint">Here are my paintings, drag them to arrange the wall!</div>
                     </div>
 
@@ -220,6 +225,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=1.0.1"></script>
 </body>
 </html>

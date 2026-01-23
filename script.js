@@ -272,7 +272,7 @@ async function processAllPaintings() {
 function applyPixelLogic(out, img, pixelSize, paletteSize, dither) {
     const small = document.getElementById('small-proc');
     const outCtx = out.getContext('2d');
-    const sCtx = small.getContext('2d');
+    const sCtx = small.getContext('2d', { willReadFrequently: true });
 
     // Set sizes
     out.width = 150; // Fixed display width
