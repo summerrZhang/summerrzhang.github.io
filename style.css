@@ -89,6 +89,10 @@ a, button, .clickable, .drag-item, .pixel-checkbox-container, input[type="range"
 #todo   { left: 440px; top: 95px; position: absolute;}
 #painting { left: 350px; top: 50px; }
 #plant  { left: 150px; top: 202px; position: absolute; }
+/* #construction {left: 0px; top: 0px;position: absolute;} z-index will make the area unclickable!*/ 
+/* #carpet { left: 400px; top: 135px; position: absolute; } */
+#tea { left: 428px; top: 145px; position: absolute;}
+#guestbook { left: 448px; top: 147px; position: absolute;}
 
 /* #counter { left: 420px; top: 120px; } */
 #mark {

@@ -346,6 +346,41 @@ function floydSteinbergDither(imageData, levels) {
     }
 }
 
+
+//connect to my api!
+async function getCommnets() {
+    const url = "https://d1-example.hanyuanzhang0501.workers.dev/api/posts/hello-world/comments";
+
+      try {
+        // Fetch the API
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error("Network response was not OK");
+        }
+
+        // Parse JSON from API
+        const comments = await response.json();
+
+        const list = document.getElementById("comments-list");
+        list.innerHTML = ""; // clear
+
+        // Loop through comments and show them
+        comments.forEach(comment => {
+          const li = document.createElement("li");
+          li.textContent = `${comment.author}: ${comment.body}`;
+          list.appendChild(li);
+        });
+
+      } catch (error) {
+        console.error("Fetch error:", error);
+    }
+}
+    
+
+
+
+
 // --- EVENT LISTENERS ---
 ['pixelSize', 'paletteSize', 'dither'].forEach(id => {
     document.getElementById(id).addEventListener('input', processAllPaintings);
@@ -353,3 +388,4 @@ function floydSteinbergDither(imageData, levels) {
 
 // Initial render
 window.addEventListener('DOMContentLoaded', processAllPaintings);
+// getCommnets();

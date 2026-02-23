@@ -10,10 +10,26 @@
 <body>
 
     <div id="scene" class="game-layer">
-        <img src="assets/bg_construction.png" id="background" alt="Room Background" />
+        <img src="assets/bg_2.23.png" id="background" alt="Room Background" />
+
+        <!-- <div id="construction">
+            <img src="assets/construction.png" alt="Construction" />
+        </div>   -->
+
+        <!-- <div id="carpet">
+            <img src="assets/carpet.png" alt="Carpet" />
+        </div>  -->
+
+        <div id="tea">
+            <img src="assets/tea.png" alt="Tea" />
+        </div> 
         
         <div class="clickable" id="laptop">
             <img src="assets/laptop.png" alt="Laptop" />
+        </div>  
+
+        <div class="clickable" id="guestbook">
+            <img src="assets/guestbook.png" alt="Guestbook" />
         </div>  
 
         <div id="mood">
@@ -56,6 +72,12 @@
             </p> -->
             <a href="https://www.imood.com/query.cgi?email=hanyuanzhang0501@gmail.com"><img id="mood-img" src="https://moods.imood.com/display/email-hanyuanzhang0501@gmail.com/fg-595959/trans-1/imood.gif" alt="The current mood of hanyuanzhang0501@gmail.com at www.imood.com" border="0"></a>
         </div>
+<!-- 
+        <div id="mood-box">
+            <p id="mood-text">comment:</p>
+            <ul id="comments-list"></ul>
+
+        </div> -->
 
         <!-- <div id = "counter"><img src="https://hitscounter.dev/api/hit?url=https%3A%2F%2Fsummerrzhang.github.io%2F&label=visitor+count&icon=person&color=%23d2f4ea&message=&style=flat&tz=Europe%2FAmsterdam"></div> -->
         
@@ -100,6 +122,8 @@
         </div>
     </div>
 
+
+
     <div id="art-modal" class="modal-overlay">
         <button id="toggle-pixel" class="pixel-btn">Switch to HD</button>
         <div class="window-container game-layer">
@@ -109,32 +133,6 @@
                 <div class="close-btn" id="close-art" style="position: absolute; top: 10px; right: 10px; z-index: 100;">X</div>
 
                 <div class="art-canvas" id="art-canvas">
-                    <!-- <div class="drag-item" id="art-1" style="top: 20px; left: 120px;">
-                        <div class="tape"><img src="assets/tape_2.png"/></div>
-                        <img src="assets/painting_1.jpg" draggable="false" />
-                    </div>
-
-                    <div class="drag-item" id="art-2" style="top: 125px; left: 260px;">
-                        <div class="tape">
-                            <img src="assets/tape_1.png"/>
-                        </div>
-                        <img src="assets/painting_2.jpg" draggable="false" />
-                    </div>
-
-                    <div class="drag-item" id="art-3" style="top: 140px; left: 40px;">
-                        <div class="tape"><img src="assets/tape_1.png"/></div>
-                        <img src="assets/painting_3.jpg" draggable="false" />
-                    </div>
-
-                    <div class="drag-item" id="art-4" style="top: 120px; left: 430px;">
-                        <div class="tape"><img src="assets/tape_1.png"/></div>
-                        <img src="assets/painting_4.jpg" draggable="false" />
-                    </div>
-
-                    <div class="drag-item" id="art-5" style="top: 5px; left: 350px;">
-                        <div class="tape"><img src="assets/tape_2.png"/></div>
-                        <img src="assets/painting_5.jpg" draggable="false" />
-                    </div> -->
 
                     <div class="drag-item" id="art-1" style="top: 20px; left: 120px;">
                         <canvas class="pixel-painting" data-src="assets/painting_1.jpg"></canvas>
