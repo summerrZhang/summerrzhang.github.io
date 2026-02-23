@@ -376,7 +376,316 @@ async function getCommnets() {
         console.error("Fetch error:", error);
     }
 }
-    
+
+
+/* ---------- GUESTBOOK MODULE (with visual icon picker) ---------- */
+
+(function () {
+  const API_BASE = 'https://d1-example.hanyuanzhang0501.workers.dev/api/guestbook/messages';
+  const ICON_COUNT = 10; // number of icon images you provide (0..ICON_COUNT-1)
+  const ICON_PATH = (id) => `assets/icons/icon_${id}.png`; // adjust if you use different names
+
+  // Elements
+  const guestbookBtn = document.getElementById('guestbook');
+  const guestModal = document.getElementById('guestbook-modal');
+  const closeGuestBtn = document.getElementById('close-guestbook');
+  const listContainer = document.getElementById('guestbook-list');
+  const loadingIndicator = document.getElementById('guestbook-loading');
+  const form = document.getElementById('guestbook-form');
+  const authorInput = document.getElementById('guestbook-author');
+  const iconInput = document.getElementById('guestbook-icon'); // hidden input
+  const bodyInput = document.getElementById('guestbook-body');
+  const submitBtn = document.getElementById('guestbook-submit');
+  const refreshBtn = document.getElementById('guestbook-refresh');
+  const statusBox = document.getElementById('guestbook-status');
+  const iconPicker = document.getElementById('guestbook-icon-picker');
+
+  // Accessibility helper: announce selected icon to screen readers (optional)
+  function announce(msg) {
+    // we keep it simple: set statusBox text briefly (screen readers will pick it up)
+    if (statusBox) {
+      statusBox.textContent = msg;
+      setTimeout(() => { if (statusBox) statusBox.textContent = ''; }, 900);
+    }
+  }
+
+  // Build icon picker UI
+  function buildIconPicker(defaultId = 0) {
+    if (!iconPicker) return;
+    iconPicker.innerHTML = '';
+    for (let i = 0; i < ICON_COUNT; i++) {
+      const opt = document.createElement('button');
+      opt.type = 'button';
+      opt.className = 'icon-option';
+      opt.dataset.id = String(i);
+      opt.title = `Icon ${i}`;
+      opt.setAttribute('aria-label', `Select icon ${i}`);
+      opt.tabIndex = 0;
+
+      const img = document.createElement('img');
+      img.src = ICON_PATH(i);
+      img.alt = `icon ${i}`;
+      // If image fails to load, show numeric fallback
+      img.addEventListener('error', () => {
+        img.remove();
+        const fb = document.createElement('div');
+        fb.className = 'fallback';
+        fb.textContent = String(i);
+        opt.appendChild(fb);
+      });
+
+      opt.appendChild(img);
+
+      // click handler
+      opt.addEventListener('click', () => {
+        setSelectedIcon(i);
+        // small announcement for screen-readers / UX feedback
+        announce(`Selected icon ${i}`);
+      });
+
+      // keyboard support
+      opt.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setSelectedIcon(i);
+          announce(`Selected icon ${i}`);
+        }
+        // arrow navigation
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          const next = opt.nextElementSibling || iconPicker.firstElementChild;
+          if (next) next.focus();
+        }
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prev = opt.previousElementSibling || iconPicker.lastElementChild;
+          if (prev) prev.focus();
+        }
+      });
+
+      iconPicker.appendChild(opt);
+    }
+
+    // Set default selected
+    setSelectedIcon(defaultId);
+  }
+
+  function setSelectedIcon(id) {
+    if (!iconPicker) return;
+    id = Number(id) || 0;
+    // clamp
+    if (id < 0) id = 0;
+    if (id >= ICON_COUNT) id = ICON_COUNT - 1;
+    // update hidden input
+    if (iconInput) iconInput.value = String(id);
+
+    // toggle selection styling
+    iconPicker.querySelectorAll('.icon-option').forEach(opt => {
+      if (Number(opt.dataset.id) === id) opt.classList.add('selected');
+      else opt.classList.remove('selected');
+    });
+  }
+
+  // Format ISO timestamp to readable string
+  function formatTime(iso) {
+    try {
+      const d = new Date(iso);
+      return d.toLocaleString();
+    } catch (e) {
+      return iso;
+    }
+  }
+
+  // Render single message item with icon image (fallback numeric)
+  function renderMessage(msg) {
+    const item = document.createElement('div');
+    item.className = 'message-item';
+
+    const iconWrap = document.createElement('div');
+    iconWrap.className = 'icon';
+
+    const iconId = Number(msg.icon_id) || 0;
+    const img = document.createElement('img');
+    img.src = ICON_PATH(iconId);
+    img.alt = `icon ${iconId}`;
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'contain';
+    img.addEventListener('error', () => {
+      // fallback to numeric if image not available
+      img.remove();
+      const fb = document.createElement('div');
+      fb.className = 'fallback';
+      fb.textContent = String(iconId);
+      iconWrap.appendChild(fb);
+    });
+
+    iconWrap.appendChild(img);
+
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+
+    const topLine = document.createElement('div');
+    const authorEl = document.createElement('span');
+    authorEl.className = 'author';
+    authorEl.textContent = msg.author || 'anonymous';
+    const timeEl = document.createElement('span');
+    timeEl.className = 'time';
+    timeEl.textContent = formatTime(msg.created_at || '');
+
+    topLine.appendChild(authorEl);
+    topLine.appendChild(timeEl);
+
+    const bodyEl = document.createElement('div');
+    bodyEl.className = 'body';
+    bodyEl.textContent = msg.body || '';
+
+    meta.appendChild(topLine);
+    meta.appendChild(bodyEl);
+
+    item.appendChild(iconWrap);
+    item.appendChild(meta);
+
+    return item;
+  }
+
+  // Fetch messages from API and render
+  async function fetchMessages() {
+    if (!listContainer) return;
+    loadingIndicator.style.display = 'block';
+    statusBox.textContent = '';
+    listContainer.innerHTML = '';
+    try {
+      const res = await fetch(API_BASE, { method: 'GET' });
+      if (!res.ok) throw new Error(`Server returned ${res.status}`);
+      const messages = await res.json();
+      if (!Array.isArray(messages) || messages.length === 0) {
+        listContainer.innerHTML = '<div class="muted" style="padding:8px 0;">No messages yet — be the first to say hi!</div>';
+      } else {
+        for (const msg of messages) {
+          listContainer.appendChild(renderMessage(msg));
+        }
+      }
+    } catch (err) {
+      listContainer.innerHTML = `<div class="muted" style="padding:8px 0;">Failed to load messages: ${err.message}</div>`;
+      console.error('fetchMessages error', err);
+    } finally {
+      loadingIndicator.style.display = 'none';
+    }
+  }
+
+  // Post a message
+  async function postMessage(payload) {
+    submitBtn.disabled = true;
+    statusBox.textContent = 'Posting…';
+    try {
+      const res = await fetch(API_BASE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const j = await res.json();
+      if (!res.ok) {
+        const err = j?.error || `Status ${res.status}`;
+        throw new Error(err);
+      }
+
+      const created = j?.created ?? null;
+      if (created) {
+        const node = renderMessage(created);
+        listContainer.insertBefore(node, listContainer.firstChild);
+        statusBox.textContent = 'Posted!';
+      } else {
+        await fetchMessages();
+        statusBox.textContent = 'Posted!';
+      }
+
+      bodyInput.value = '';
+      setTimeout(() => (statusBox.textContent = ''), 1600);
+    } catch (err) {
+      console.error('postMessage error', err);
+      statusBox.textContent = `Error: ${err.message}`;
+    } finally {
+      submitBtn.disabled = false;
+    }
+  }
+
+  // Open/close handlers
+  function openGuestbook() {
+    if (!guestModal) return;
+    guestModal.style.display = 'flex';
+    // ensure icon picker is built (preserve any previously selected)
+    const selected = Number(iconInput?.value) || 0;
+    buildIconPicker(selected);
+    fetchMessages();
+  }
+  function closeGuestbook() {
+    if (!guestModal) return;
+    guestModal.style.display = 'none';
+  }
+
+  // Hook events
+  if (guestbookBtn) {
+    guestbookBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openGuestbook();
+    });
+  }
+
+  if (closeGuestBtn) {
+    closeGuestBtn.addEventListener('click', () => closeGuestbook());
+  }
+
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      fetchMessages();
+    });
+  }
+
+  if (form) {
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      statusBox.textContent = '';
+
+      const author = authorInput.value?.trim() || '';
+      const body = bodyInput.value?.trim() || '';
+      const icon_id = Number(iconInput.value) || 0;
+
+      // Client-side validation
+      if (!author) {
+        statusBox.textContent = 'Please enter your name.';
+        return;
+      }
+      if (!body) {
+        statusBox.textContent = 'Please enter a message.';
+        return;
+      }
+      if (body.length > 1000) {
+        statusBox.textContent = 'Message too long (max 1000 chars).';
+        return;
+      }
+
+      postMessage({ author, icon_id, body });
+    });
+  }
+
+  // Close when clicking outside the modal content (optional)
+  if (guestModal) {
+    guestModal.addEventListener('click', (e) => {
+      if (e.target === guestModal) closeGuestbook();
+    });
+  }
+
+  // Build picker on DOMContentLoaded (if modal not yet shown)
+  window.addEventListener('DOMContentLoaded', () => {
+    // Prebuild (so it's interactive inside modal when opened).
+    // Use current value in hidden input as default
+    const defaultIcon = Number(iconInput?.value) || 0;
+    buildIconPicker(defaultIcon);
+  });
+
+})();
 
 
 

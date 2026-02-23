@@ -223,6 +223,51 @@
         </div>
     </div>
 
+    <div id="guestbook-modal" class="modal-overlay" style="display: none;">
+        <div class="window-container game-layer">
+            <div class="rpg-box guestbook-window">
+            <div class="rpg-window-header">
+                <span>[ GUESTBOOK ]</span>
+                <div class="close-btn-small" id="close-guestbook">X</div>
+            </div>
+
+            <div class="guestbook-body" style="display:flex; gap:12px; padding:12px;">
+                <!-- Left: messages list -->
+                <div class="guestbook-list" style="flex:1; overflow:auto; max-height:200px; padding-right:8px;">
+                <div id="guestbook-loading" class="muted" style="padding:8px 0;">Loading messages…</div>
+                <div id="guestbook-list" class="message-list"></div>
+                </div>
+
+                <!-- Right: post form -->
+                <div style="width:220px; flex-shrink:0;">
+                <form id="guestbook-form" class="guest-form" autocomplete="off" style="display:flex; flex-direction:column; gap:8px;">
+                    <label style="font-size:11px; color:#a2fd10;">Name
+                    <input id="guestbook-author" type="text" maxlength="60" required>
+                    </label>
+
+                    <label style="font-size:11px; color:#a2fd10; ">
+                        Icon
+                        <div id="guestbook-icon-picker" class="icon-picker" aria-label="Choose your icon"></div>
+                        <input id="guestbook-icon" type="hidden" value="0">
+                    </label>
+
+                    <label style="font-size:11px; color:#a2fd10;">Message
+                    <textarea id="guestbook-body" rows="4" maxlength="1000" required></textarea>
+                    </label>
+
+                    <div style="display:flex; gap:8px; align-items:center;">
+                    <button type="submit" id="guestbook-submit" class="pixel-btn" style="flex:1;">Post</button>
+                    <button type="button" id="guestbook-refresh" class="pixel-btn" style="padding:4px 6px;">Refresh</button>
+                    </div>
+
+                    <div id="guestbook-status" class="muted" style="font-size:11px; min-height:18px;"></div>
+                </form>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js?v=1.0.1"></script>
 </body>
 </html>
