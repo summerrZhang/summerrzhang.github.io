@@ -1,0 +1,32 @@
+/**
+ * Base: reset, body, cursor, and global animations.
+ */
+body {
+    margin: 0;
+    background: var(--color-bg);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-main);
+}
+
+html, body {
+    cursor: url('../assets/cursor_default.png'), auto;
+}
+
+a, button, .clickable, .drag-item, .pixel-checkbox-container, input[type="range"] {
+    cursor: url('../assets/cursor_pointer.png'), pointer !important;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { filter: drop-shadow(0 0 2px rgba(255, 230, 0, 0.5)); }
+    50% { filter: drop-shadow(0 0 5px rgb(255, 60, 0)); }
+}

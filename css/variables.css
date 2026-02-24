@@ -1,0 +1,31 @@
+/**
+ * Design tokens – single source for colors, sizes, and modal dimensions.
+ * Change these for consistent theming and similar modal sizes across the site.
+ */
+:root {
+    /* Colors */
+    --color-bg: #1b1b1b;
+    --color-surface: #2c2c2c;
+    --color-surface-dark: #333;
+    --color-border: #ffffff;
+    --color-border-dark: #333;
+    --color-accent: #a2fd10;
+    --color-text: #eee;
+    --color-text-muted: #ddd;
+    --color-text-dark: #333;
+
+    /* Modal – unified size for content windows (art, guestbook, projects) */
+    --modal-width: 540px;
+    --modal-height: 320px;
+    --modal-intro-width: 420px;
+    --modal-intro-height: 70px;
+
+    /* Close button – one style for all modals */
+    --close-btn-size: 11px;
+    --close-btn-bg: var(--color-accent);
+    --close-btn-color: var(--color-text-dark);
+    --close-btn-border: 2px solid var(--color-border-dark);
+
+    /* Typography */
+    --font-main: 'VT323', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', 'Heiti SC', 'Courier New', Courier, monospace;
+}

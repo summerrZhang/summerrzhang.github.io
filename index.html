@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Summer's Portfolio</title>
-    <link rel="stylesheet" href="style.css?v=1.0.1" />
+    <link rel="stylesheet" href="style.css?v=1.0.2" />
     <link href='https://fonts.googleapis.com/css?family=VT323' rel='stylesheet'>
 </head>
 <body>
@@ -108,7 +108,7 @@
     <div id="laptop-modal" class="modal-overlay">
         <div class="window-container game-layer">
             <div id="laptop-screen-content">
-                <div class="close-btn" id="close-laptop">X</div>
+                <div class="close-btn close-btn--float" id="close-laptop">X</div>
                 <img src="assets/screen.png" id="screen" alt="OS Screen" />
                 
                 <div class="clickable desktop-icon" id="pdf-icon">
@@ -127,10 +127,10 @@
     <div id="art-modal" class="modal-overlay">
         <button id="toggle-pixel" class="pixel-btn">Switch to HD</button>
         <div class="window-container game-layer">
-            <div class="rpg-box art-window" style="padding: 0; position: relative;">
+            <div class="rpg-box art-window">
 
 
-                <div class="close-btn" id="close-art" style="position: absolute; top: 10px; right: 10px; z-index: 100;">X</div>
+                <div class="close-btn close-btn--float" id="close-art">X</div>
 
                 <div class="art-canvas" id="art-canvas">
 
@@ -177,7 +177,7 @@
             <div class="rpg-box project-window">
                 <div class="rpg-window-header">
                     <span>[ C:/PROJECTS ]</span>
-                    <div class="close-btn-small" id="close-projects">X</div>
+                    <div class="close-btn" id="close-projects">X</div>
                 </div>
 
                 <div class="project-list">
@@ -228,41 +228,31 @@
             <div class="rpg-box guestbook-window">
             <div class="rpg-window-header">
                 <span>[ GUESTBOOK ]</span>
-                <div class="close-btn-small" id="close-guestbook">X</div>
+                <div class="close-btn" id="close-guestbook">X</div>
             </div>
 
-            <div class="guestbook-body" style="display:flex; gap:12px; padding:12px;">
-                <!-- Left: messages list -->
-                <div class="guestbook-list" style="flex:1; overflow:auto; max-height:200px; padding-right:8px;">
-                <div id="guestbook-loading" class="muted" style="padding:8px 0;">Loading messages…</div>
-                <div id="guestbook-list" class="message-list"></div>
+            <div class="guestbook-body">
+                <div class="guestbook-list">
+                    <div id="guestbook-loading" class="muted">Loading messages…</div>
+                    <div id="guestbook-list" class="message-list"></div>
                 </div>
-
-                <!-- Right: post form -->
-                <div style="width:220px; flex-shrink:0;">
-                <form id="guestbook-form" class="guest-form" autocomplete="off" style="display:flex; flex-direction:column; gap:8px;">
-                    <label style="font-size:11px; color:#a2fd10;">Name
-                    <input id="guestbook-author" type="text" maxlength="60" required>
+                <form id="guestbook-form" class="guest-form" autocomplete="off">
+                    <label>Name
+                        <input id="guestbook-author" type="text" maxlength="60" required>
                     </label>
-
-                    <label style="font-size:11px; color:#a2fd10; ">
-                        Icon
+                    <label>Icon
                         <div id="guestbook-icon-picker" class="icon-picker" aria-label="Choose your icon"></div>
                         <input id="guestbook-icon" type="hidden" value="0">
                     </label>
-
-                    <label style="font-size:11px; color:#a2fd10;">Message
-                    <textarea id="guestbook-body" rows="4" maxlength="1000" required></textarea>
+                    <label>Message
+                        <textarea id="guestbook-body" rows="4" maxlength="1000" required></textarea>
                     </label>
-
-                    <div style="display:flex; gap:8px; align-items:center;">
-                    <button type="submit" id="guestbook-submit" class="pixel-btn" style="flex:1;">Post</button>
-                    <button type="button" id="guestbook-refresh" class="pixel-btn" style="padding:4px 6px;">Refresh</button>
+                    <div class="btn-row">
+                        <button type="submit" id="guestbook-submit" class="pixel-btn flex-1">Post</button>
+                        <button type="button" id="guestbook-refresh" class="pixel-btn">Refresh</button>
                     </div>
-
-                    <div id="guestbook-status" class="muted" style="font-size:11px; min-height:18px;"></div>
+                    <div id="guestbook-status" class="muted"></div>
                 </form>
-                </div>
             </div>
             </div>
         </div>
