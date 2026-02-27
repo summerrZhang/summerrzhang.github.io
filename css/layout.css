@@ -108,3 +108,18 @@
     visibility: visible;
     transform: translateY(-5px);
 }
+
+/* Mouse NPC (flee-from-cursor) */
+.mouse-npc {
+    position: absolute;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.mouse-npc .mouse-sprite {
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+}
