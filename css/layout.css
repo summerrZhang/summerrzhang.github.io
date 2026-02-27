@@ -40,14 +40,19 @@
 }
 
 /* Object positions */
-#laptop    { left: 190px; top: 70px; }
+#laptop    { left: 190px; top: 70px; z-index: 7;}
 #mood      { left: 430px; top: 40px; position: absolute; }
-#me        { left: 300px; top: 120px; }
+#me        { left: 300px; top: 120px; z-index: 6;}
 #todo      { left: 440px; top: 95px; position: absolute; }
 #painting  { left: 350px; top: 50px; }
-#plant     { left: 150px; top: 202px; position: absolute; }
-#tea       { left: 428px; top: 145px; position: absolute; }
-#guestbook { left: 448px; top: 147px; position: absolute; }
+#plant     { left: 150px; top: 202px; position: absolute; z-index: 6;}
+#tea       { left: 428px; top: 145px; position: absolute; z-index: 7;}
+#guestbook { left: 448px; top: 147px; position: absolute; z-index: 7;}
+#chair     { left: 210px; top: 130px; position: absolute; z-index: 8;}
+#coffeetable { left: 400px; top: 145px; position: absolute; z-index: 6;}
+#table     { left: 170px; top: 100px; position: absolute; z-index: 6;}
+#carpet    { left: 390px; top: 135px; position: absolute; }
+#windowonwall { left: 155px; top: 30px; position: absolute; }
 
 #mark {
     position: absolute;
@@ -74,7 +79,7 @@
 #mood-img { width: 40px; padding-left: 11px; }
 
 /* Grass pot */
-#grasspot { left: 205px; top: 254px; position: absolute; }
+#grasspot { left: 205px; top: 254px; position: absolute; z-index: 6;}
 
 .grass {
     position: absolute;
