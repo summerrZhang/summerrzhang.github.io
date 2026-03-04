@@ -15,7 +15,7 @@
 
   const scene = document.getElementById('scene');
   if (!scene) {
-    console.log('[Mouse] No #scene found, aborting.');
+    // console.log('[Mouse] No #scene found, aborting.');
     return;
   }
 
@@ -82,7 +82,7 @@
     } else {
       dir = dy >= 0 ? 'up' : 'down';
     }
-    console.log('[Mouse] chooseDirection: dx=', dx.toFixed(0), 'dy=', dy.toFixed(0), '→', dir);
+    // console.log('[Mouse] chooseDirection: dx=', dx.toFixed(0), 'dy=', dy.toFixed(0), '→', dir);
     return dir;
   }
 
@@ -159,7 +159,7 @@
       }
 
       if (moveRemaining <= 0 || actualMoved < step) {
-        console.log('[Mouse] Move finished. direction=', moveDirection, 'remaining=', moveRemaining, 'hitBound=', actualMoved < step);
+        // console.log('[Mouse] Move finished. direction=', moveDirection, 'remaining=', moveRemaining, 'hitBound=', actualMoved < step);
         lastFacingDirection = moveDirection;
         isMoving = false;
         moveDirection = null;
@@ -171,7 +171,7 @@
         moveRemaining = MOVE_DISTANCE;
         animTime = 0;
         isMoving = true;
-        console.log('[Mouse] Triggered! dist=', dist.toFixed(0), 'direction=', moveDirection, 'moveRemaining=', moveRemaining);
+        // console.log('[Mouse] Triggered! dist=', dist.toFixed(0), 'direction=', moveDirection, 'moveRemaining=', moveRemaining);
       } else {
         setSpriteIdleFacing();
       }
@@ -194,7 +194,7 @@
     scene.appendChild(container);
     mouseEl = container;
     setSprite('idle');
-    console.log('[Mouse] Element created at', startLeft, startTop, 'bounds:', BOUNDS);
+    // console.log('[Mouse] Element created at', startLeft, startTop, 'bounds:', BOUNDS);
   }
 
   function onMouseMove(e) {
@@ -202,7 +202,7 @@
   }
 
   function init() {
-    console.log('[Mouse] init');
+    // console.log('[Mouse] init');
     createMouseElement();
     window.addEventListener('mousemove', onMouseMove);
     requestAnimationFrame(tick);
