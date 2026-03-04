@@ -10,120 +10,146 @@
 <body>
 
     <div id="scene" class="game-layer">
-        <img src="assets/bg.png" id="background" alt="Room Background" />
-
-        <div id="construction">
-            <img src="assets/construction.png" alt="Construction" />
-        </div>  
-
-        <div id="carpet">
-            <img src="assets/carpet.png" alt="Carpet" />
-        </div> 
-
-        <div id="coffeetable">
-            <img src="assets/coffeetable.png" alt="Coffeetable" />
-        </div> 
-
-        <div id="table">
-            <img src="assets/table.png" alt="Table" />
-        </div> 
-
-        <div id="chair">
-            <img src="assets/chair.png" alt="Chair" />
-        </div>
-        
-        <div id="windowonwall">
-            <img src="assets/window.png" alt="Window" />
-        </div>
-
-        <div id="tea">
-            <img src="assets/tea.png" alt="Tea" />
-        </div> 
-        
-        <div class="clickable" id="laptop">
-            <img src="assets/laptop.png" alt="Laptop" />
-        </div>  
-
-        <div class="clickable" id="doormat">
-            <img src="assets/doormat.png" alt="Doormat" />
-        </div>  
-
-        <div class="clickable" id="guestbook">
-            <img src="assets/guestbook.png" alt="Guestbook" />
-        </div>  
-
-        <div id="mood">
-            <img src="assets/mood.png" alt="Mood" />
-        </div>  
-
-        <div id="plant">
-            <img src="assets/plant_1.png" alt="Plant" />
-        </div> 
         
 
-        <div class="grasspot" id="grasspot">
-            <!-- <div class="touch-grass-hint">Go ahead... touch it.</div> -->
-            <img src="assets/plant_2.png" class="pot-base" />
-            <img src="assets/grass_1.png" class="grass g1" style="left: -2px;"/>
-            <img src="assets/grass_5.png" class="grass g5" style="left: 3px;"/>
-            <img src="assets/grass_2.png" class="grass g2" style="left: 15px;  z-index: 20;"/>
-            <img src="assets/grass_6.png" class="grass g6" style="left: 11px; bottom: 20px;"/>
-            <img src="assets/grass_3.png" class="grass g3" style="left: 27px;"/>
-            <img src="assets/grass_4.png" class="grass g4" style="left: 35px; z-index: 20;"/>
-            <img src="assets/grass_7.png" class="grass g7" style="left: 24px;"/>
-            <img src="assets/grass_8.png" class="grass g8" style="left: 5px;"/>
-            <div class="grass-hint" id="grass-hint"></div>
-        </div>
+        <div id = "room-layer">
+            <img src="assets/bg.png" id="background-room" alt="Room Background" />
+            <div id="construction">
+                <img src="assets/construction.png" alt="Construction" />
+            </div>  
 
-        <div id="mark">
-            <img src="assets/exclamation_mark.png" alt="Exclamation Mark" />
-        </div>  
+            <div id="carpet">
+                <img src="assets/carpet.png" alt="Carpet" />
+            </div> 
 
-        <div class="clickable" id="me">
-            <img src="assets/me.png" alt="Me" />
-        </div>  
+            <div id="coffeetable">
+                <img src="assets/coffeetable.png" alt="Coffeetable" />
+            </div> 
 
-        <div id="mood-box">
-            <p id="mood-text">mood:</p>
-            <!-- <p>
-                <a href="https://www.imood.com/users/xiaoshuimm" target="_blank">
-                    <img id="mood-face" alt="Mood face" />
-                </a>
-            </p> -->
-            <a href="https://www.imood.com/query.cgi?email=hanyuanzhang0501@gmail.com"><img id="mood-img" src="https://moods.imood.com/display/email-hanyuanzhang0501@gmail.com/fg-595959/trans-1/imood.gif" alt="The current mood of hanyuanzhang0501@gmail.com at www.imood.com" border="0"></a>
-        </div>
-<!-- 
-        <div id="mood-box">
-            <p id="mood-text">comment:</p>
-            <ul id="comments-list"></ul>
+            <div id="table">
+                <img src="assets/table.png" alt="Table" />
+            </div> 
 
-        </div> -->
+            <div id="chair">
+                <img src="assets/chair.png" alt="Chair" />
+            </div>
+            
+            <div id="windowonwall">
+                <img src="assets/window.png" alt="Window" />
+            </div>
 
-        <!-- <div id = "counter"><img src="https://hitscounter.dev/api/hit?url=https%3A%2F%2Fsummerrzhang.github.io%2F&label=visitor+count&icon=person&color=%23d2f4ea&message=&style=flat&tz=Europe%2FAmsterdam"></div> -->
-        
-        <div id="todo">
-            <img src="assets/todo.png" alt="Todo" />
-        </div> 
+            <div id="tea">
+                <img src="assets/tea.png" alt="Tea" />
+            </div> 
+            
+            <div class="clickable" id="laptop">
+                <img src="assets/laptop.png" alt="Laptop" />
+            </div>  
 
-        <div class="clickable" id="painting">
-            <img src="assets/painting.png" alt="Paintings" />
-        </div> 
+            <div class="clickable" id="doormat">
+                <img src="assets/doormat.png" alt="Doormat" />
+            </div>  
 
-        <div id="intro-dialog" class="dialog-overlay" style="display: none;">
-            <div class="rpg-box intro-box">
-                <div class="rpg-layout">
-                    <div class="rpg-content">
-                        <h3 id="dialog-name">Summer</h3>
-                        <p id="dialog-text"></p> 
-                        <div class="next-arrow">▼</div>
-                    </div>
-                    <div id="avatar">
-                        <img src="assets/me_big.png" alt="avatar" />
+            <div class="clickable" id="guestbook">
+                <img src="assets/guestbook.png" alt="Guestbook" />
+            </div>  
+
+            <div id="mood">
+                <img src="assets/mood.png" alt="Mood" />
+            </div>  
+
+            <div id="plant">
+                <img src="assets/plant_1.png" alt="Plant" />
+            </div> 
+            
+
+            <div class="grasspot" id="grasspot">
+                <!-- <div class="touch-grass-hint">Go ahead... touch it.</div> -->
+                <img src="assets/plant_2.png" class="pot-base" />
+                <img src="assets/grass_1.png" class="grass g1" style="left: -2px;"/>
+                <img src="assets/grass_5.png" class="grass g5" style="left: 3px;"/>
+                <img src="assets/grass_2.png" class="grass g2" style="left: 15px;  z-index: 20;"/>
+                <img src="assets/grass_6.png" class="grass g6" style="left: 11px; bottom: 20px;"/>
+                <img src="assets/grass_3.png" class="grass g3" style="left: 27px;"/>
+                <img src="assets/grass_4.png" class="grass g4" style="left: 35px; z-index: 20;"/>
+                <img src="assets/grass_7.png" class="grass g7" style="left: 24px;"/>
+                <img src="assets/grass_8.png" class="grass g8" style="left: 5px;"/>
+                <div class="grass-hint" id="grass-hint"></div>
+            </div>
+
+            <div id="mark">
+                <img src="assets/exclamation_mark.png" alt="Exclamation Mark" />
+            </div>  
+
+            <div class="clickable" id="me">
+                <img src="assets/me.png" alt="Me" />
+            </div>  
+
+            <div id="mood-box">
+                <p id="mood-text">mood:</p>
+                <!-- <p>
+                    <a href="https://www.imood.com/users/xiaoshuimm" target="_blank">
+                        <img id="mood-face" alt="Mood face" />
+                    </a>
+                </p> -->
+                <a href="https://www.imood.com/query.cgi?email=hanyuanzhang0501@gmail.com"><img id="mood-img" src="https://moods.imood.com/display/email-hanyuanzhang0501@gmail.com/fg-595959/trans-1/imood.gif" alt="The current mood of hanyuanzhang0501@gmail.com at www.imood.com" border="0"></a>
+            </div>
+    <!-- 
+            <div id="mood-box">
+                <p id="mood-text">comment:</p>
+                <ul id="comments-list"></ul>
+
+            </div> -->
+
+            <!-- <div id = "counter"><img src="https://hitscounter.dev/api/hit?url=https%3A%2F%2Fsummerrzhang.github.io%2F&label=visitor+count&icon=person&color=%23d2f4ea&message=&style=flat&tz=Europe%2FAmsterdam"></div> -->
+            
+            <div id="todo">
+                <img src="assets/todo.png" alt="Todo" />
+            </div> 
+
+            <div class="clickable" id="painting">
+                <img src="assets/painting.png" alt="Paintings" />
+            </div> 
+
+            <div id="intro-dialog" class="dialog-overlay" style="display: none;">
+                <div class="rpg-box intro-box">
+                    <div class="rpg-layout">
+                        <div class="rpg-content">
+                            <h3 id="dialog-name">Summer</h3>
+                            <p id="dialog-text"></p> 
+                            <div class="next-arrow">▼</div>
+                        </div>
+                        <div id="avatar">
+                            <img src="assets/me_big.png" alt="avatar" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+         <div id = "outside-layer" style="display:none;">
+            <img src="assets/outside.png" id="background-outside" alt="Outside Background" />
+
+            <div id="exit" class="clickable">
+                <img src="assets/exit.png" alt="Exit Sign" />
+            </div> 
+
+            <div id="stonecat" class="touchable">
+                <img src="assets/stonecat.png" alt="Stone Cat" />
+            </div>
+
+            <div id="fish" class="clickable">
+                <img src="assets/fishing.png" alt="Fish" />
+            </div>
+
+            <div class="clickable" id="me">
+                <img src="assets/me.png" alt="Me" />
+            </div>  
+
+         </div>
     </div>
+
+        
 
     <div id="laptop-modal" class="modal-overlay">
         <div class="window-container game-layer">
@@ -141,8 +167,6 @@
             </div>
         </div>
     </div>
-
-
 
     <div id="art-modal" class="modal-overlay">
         <button id="toggle-pixel" class="pixel-btn">Switch to HD</button>
@@ -278,7 +302,9 @@
         </div>
     </div>
 
-    <script src="mouse.js"></script>
     <script src="room.js?v=1.0.1"></script>
+    <script src="outside.js?v=1.0.1"></script>
+    <script src="mouse.js"></script>
+    
 </body>
 </html>
