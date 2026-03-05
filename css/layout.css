@@ -1,5 +1,6 @@
 /**
- * Layout: game canvas, scene, and object positions.
+ * Layout: game canvas, scene, and object positions only.
+ * Component styles (clickable, hints, dialog, modals) are in components.css.
  */
 .game-layer {
     width: 640px;
@@ -30,25 +31,11 @@
     display: block;
 }
 
-/* Clickables */
-.clickable {
-    position: absolute;
-    cursor: pointer;
-    transition: transform 0.1s ease;
-}
-
-.clickable:hover img {
-    filter:
-        drop-shadow(1px 0 0 var(--color-accent))
-        drop-shadow(-1px 0 0 var(--color-accent))
-        drop-shadow(0 1px 0 var(--color-accent))
-        drop-shadow(0 -1px 0 var(--color-accent));
-}
-
 /* Object positions */
 #laptop    { left: 190px; top: 70px; z-index: 7;}
 #mood      { left: 430px; top: 40px; position: absolute; }
 #me        { left: 300px; top: 120px; z-index: 6;}
+#me-outside { left: 300px; top: 120px; z-index: 6;}
 #todo      { left: 440px; top: 95px; position: absolute; }
 #painting  { left: 350px; top: 50px; }
 #plant     { left: 150px; top: 202px; position: absolute; z-index: 6;}
@@ -100,29 +87,6 @@
     z-index: 10;
     image-rendering: pixelated;
     pointer-events: auto;
-}
-
-.grass-hint {
-    position: absolute;
-    top: -30px;
-    left: -10px;
-    background: #ffffff;
-    border: 2px solid var(--color-accent);
-    color: var(--color-text-dark);
-    font-size: 8px;
-    padding: 2px 5px;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 20;
-    pointer-events: none;
-}
-
-.grass-hint.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(-5px);
 }
 
 /* Mouse NPC (flee-from-cursor) */

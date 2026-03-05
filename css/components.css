@@ -1,7 +1,48 @@
 /**
- * Components: modals, windows, buttons, forms.
- * Close buttons use one shared style; modal sizes use variables.
+ * Components: modals, dialog, buttons, clickables, hints, forms.
+ * For layout (positions, structure) see layout.css.
  */
+
+/* ========== CLICKABLE ========== */
+.clickable {
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.clickable:hover img {
+    filter:
+        drop-shadow(1px 0 0 var(--color-accent))
+        drop-shadow(-1px 0 0 var(--color-accent))
+        drop-shadow(0 1px 0 var(--color-accent))
+        drop-shadow(0 -1px 0 var(--color-accent));
+}
+
+/* ========== TOUCHABLE / HOVER HINTS ========== */
+.grass-hint,
+.touchable-hint {
+    position: absolute;
+    top: -30px;
+    left: -10px;
+    background: #ffffff;
+    border: 2px solid var(--color-accent);
+    color: var(--color-text-dark);
+    font-size: 8px;
+    padding: 2px 5px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.grass-hint.show,
+.touchable-hint.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-5px);
+}
 
 /* ========== MODALS ========== */
 .modal-overlay {
@@ -65,7 +106,8 @@
     position: relative;
 }
 
-/* ========== INTRO DIALOG ========== */
+/* ========== DIALOG (reusable: room, outside, etc.) ========== */
+.dialog-box,
 .intro-box {
     width: var(--modal-intro-width);
     height: var(--modal-intro-height);
@@ -107,7 +149,7 @@
     color: var(--color-text);
 }
 
-#avatar {
+#dialog-avatar {
     width: 60px;
     border-left: 2px solid #555;
     margin-left: 12px;
@@ -116,7 +158,7 @@
     align-items: center;
 }
 
-#avatar img {
+#dialog-avatar img {
     width: 100%;
     height: auto;
     image-rendering: pixelated;

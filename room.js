@@ -1,9 +1,9 @@
 /**
- * PIXEL PORTFOLIO CORE SCRIPT
- * Organized by: Scaling, Modals, API, and Interactions
+ * room.js – Room layer: scaling, modals, art wall, grass, guestbook.
+ * Uses helper.js for Touchable hints and Modal show/hide.
  */
 
-// --- CONFIGURATION & STATE ---
+// --- CONFIGURATION ---
 const BASE_WIDTH = 640;
 const BASE_HEIGHT = 360;
 const INTRO_MESSAGE = "Hi, welcome to my space :3 Feel free to click around and explore. This space is always under construction, just like me.";
@@ -12,28 +12,22 @@ const INTRO_MESSAGE = "Hi, welcome to my space :3 Feel free to click around and 
 const elements = {
     scene: document.getElementById("scene"),
     gameLayers: document.querySelectorAll(".game-layer"),
-    // Interaction Objects
     laptop: document.getElementById("laptop"),
     me: document.getElementById("me"),
     mark: document.getElementById("mark"),
     painting: document.getElementById("painting"),
-    // Modals
     modals: {
         laptop: document.getElementById("laptop-modal"),
         projects: document.getElementById("projects-modal"),
-        dialog: document.getElementById("intro-dialog"),
         art: document.getElementById("art-modal")
     },
-    // Desktop Icons
     pdfIcon: document.getElementById("pdf-icon"),
     folderIcon: document.getElementById("folder-icon"),
-    // Content Containers
-    dialogText: document.getElementById("dialog-text"),
     moodText: document.getElementById("mood-text"),
     moodFace: document.getElementById("mood-face")
 };
 
-// --- 1. SCALING SYSTEM ---
+// --- SCALING ---
 function scaleScene() {
     const scale = Math.min(
         window.innerWidth / BASE_WIDTH,
@@ -43,57 +37,33 @@ function scaleScene() {
         layer.style.transform = `scale(${scale})`;
     });
 }
-
 window.addEventListener("resize", scaleScene);
-scaleScene(); // Initial call
+scaleScene();
 
-// --- 2. MODAL MANAGER ---
-// A single function to handle all opening/closing
-function toggleModal(modalKey, show = true) {
-    const modal = elements.modals[modalKey];
-    if (modal) {
-        modal.style.display = show ? "flex" : "none";
-    }
-}
+// --- MODALS (using Helpers.Modal) ---
+function openModal(key) { if (window.Helpers && window.Helpers.Modal) window.Helpers.Modal.show(elements.modals[key]); }
+function closeModal(key) { if (window.Helpers && window.Helpers.Modal) window.Helpers.Modal.hide(elements.modals[key]); }
 
-// --- 3. EVENT LISTENERS ---
+elements.laptop.addEventListener('click', () => openModal('laptop'));
+document.getElementById("close-laptop").addEventListener('click', () => closeModal('laptop'));
+elements.folderIcon.addEventListener('click', () => openModal('projects'));
+document.getElementById("close-projects").addEventListener('click', () => closeModal('projects'));
+elements.pdfIcon.addEventListener('click', () => { window.open("assets/Summer_Zhang_CV.pdf", "_blank"); });
 
-// Laptop & OS Interactions
-elements.laptop.addEventListener('click', () => toggleModal('laptop', true));
-document.getElementById("close-laptop").addEventListener('click', () => toggleModal('laptop', false));
-
-elements.folderIcon.addEventListener('click', () => toggleModal('projects', true));
-document.getElementById("close-projects").addEventListener('click', () => toggleModal('projects', false));
-
-elements.pdfIcon.addEventListener('click', () => {
-    window.open("assets/Summer_Zhang_CV.pdf", "_blank");
-});
-
-// Art Gallery Interactions
-if (elements.painting) {
-    elements.painting.addEventListener('click', () => toggleModal('art', true));
-}
+if (elements.painting) elements.painting.addEventListener('click', () => openModal('art'));
 const closeArt = document.getElementById("close-art");
-if (closeArt) {
-    closeArt.addEventListener('click', () => toggleModal('art', false));
+if (closeArt) closeArt.addEventListener('click', () => closeModal('art'));
+
+function startIntroduction() {
+    elements.mark.style.display = 'none';
+    if (window.Helpers && window.Helpers.Dialog) window.Helpers.Dialog.show('Summer', INTRO_MESSAGE);
 }
-
-// Character Introduction
-const startIntroduction = () => {
-    elements.mark.style.display = 'none'; // Hide ! mark
-    elements.dialogText.innerText = INTRO_MESSAGE; // Instant text
-    toggleModal('dialog', true);
-};
-
 elements.mark.addEventListener('click', startIntroduction);
 elements.me.addEventListener('click', startIntroduction);
-elements.modals.dialog.addEventListener('click', () => toggleModal('dialog', false));
 
 // --- ART WALL: DRAGGING & LOCAL STORAGE ---
-
 let highestZ = 10;
 
-// 1. Function to SAVE positions to Local Storage
 function saveArtPositions() {
     const positions = {};
     document.querySelectorAll('.drag-item').forEach(item => {
@@ -105,7 +75,6 @@ function saveArtPositions() {
     localStorage.setItem('artPositions', JSON.stringify(positions));
 }
 
-// 2. Function to LOAD positions from Local Storage
 function loadArtPositions() {
     const savedData = localStorage.getItem('artPositions');
     if (savedData) {
@@ -138,10 +107,7 @@ function makeDraggable(element) {
 
     window.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
-
-        // Calculate movement based on current scale
-        const scale = parseFloat(document.getElementById("scene").style.transform.replace('scale(', '')) || 1;
-        
+        const scale = window.Helpers && window.Helpers.getSceneScale ? window.Helpers.getSceneScale(elements.scene) : 1;
         const dx = (e.clientX - startX) / scale;
         const dy = (e.clientY - startY) / scale;
 
@@ -158,17 +124,14 @@ function makeDraggable(element) {
     });
 }
 
-// INITIALIZE: Load positions and make items draggable
 window.addEventListener("DOMContentLoaded", () => {
     loadArtPositions();
-    document.querySelectorAll('.drag-item').forEach(item => {
-        makeDraggable(item);
-    });
+    document.querySelectorAll('.drag-item').forEach(item => makeDraggable(item));
 });
 
+// --- GRASS (touchable hint + tilt effect) ---
 const grasses = document.querySelectorAll('.grass');
-const grassHint = document.getElementById('grass-hint');
-
+const grasspot = document.getElementById('grasspot');
 const grassMessages = [
     "Wow...You just touched grass...",
     "Maybe you can also try to go outside...",
@@ -179,14 +142,9 @@ const grassMessages = [
 let messageIndex = 0;
 let isCurrentlyTouching = false;
 
-// Initialize the first message
-grassHint.innerText = grassMessages[messageIndex];
-
 window.addEventListener('mousemove', (e) => {
     let anyGrassMoved = false;
-
-    // Get the current scale of your game (e.g., 1.5 or 0.8)
-    const scale = parseFloat(elements.scene.style.transform.replace('scale(', '')) || 1;
+    const scale = window.Helpers && window.Helpers.getSceneScale ? window.Helpers.getSceneScale(elements.scene) : 1;
 
     grasses.forEach(Grass => {
         const rect = Grass.getBoundingClientRect();
@@ -217,30 +175,29 @@ window.addEventListener('mousemove', (e) => {
         }
     });
 
-    // Show/Hide the "Touch Grass" text
+    // Show/Hide the touchable hint (same API as other touchables)
     if (anyGrassMoved) {
-        if (!isCurrentlyTouching) {
-            grassHint.classList.add('show');
+        if (!isCurrentlyTouching && window.TouchableHint && grasspot) {
+            window.TouchableHint.show(grasspot, grassMessages[messageIndex]);
             isCurrentlyTouching = true;
         }
     } else {
-        if (isCurrentlyTouching) {
-            grassHint.classList.remove('show');
+        if (isCurrentlyTouching && grasspot) {
+            if (window.TouchableHint) window.TouchableHint.hide(grasspot);
             isCurrentlyTouching = false;
-            
-            // Wait for the text to hide, then change it to the next message
+
             setTimeout(() => {
                 messageIndex++;
                 if (messageIndex >= grassMessages.length) {
-                    messageIndex = 0; // Loop back to the start
+                    messageIndex = 0;
                 }
-                grassHint.innerText = grassMessages[messageIndex];
-            }, 300); // This matches your CSS transition time
+                // Next time we show, we'll use the new message
+            }, 300);
         }
     }
 });
 
-
+// --- PAINTINGS: PIXEL / CANVAS ---
 const imageCache = {};
 
 async function getCachedImage(src) {

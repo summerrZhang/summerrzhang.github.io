@@ -63,7 +63,7 @@
             </div> 
             
 
-            <div class="grasspot" id="grasspot">
+            <div class="grasspot touchable" id="grasspot" data-touchable-messages>
                 <!-- <div class="touch-grass-hint">Go ahead... touch it.</div> -->
                 <img src="assets/plant_2.png" class="pot-base" />
                 <img src="assets/grass_1.png" class="grass g1" style="left: -2px;"/>
@@ -74,7 +74,7 @@
                 <img src="assets/grass_4.png" class="grass g4" style="left: 35px; z-index: 20;"/>
                 <img src="assets/grass_7.png" class="grass g7" style="left: 24px;"/>
                 <img src="assets/grass_8.png" class="grass g8" style="left: 5px;"/>
-                <div class="grass-hint" id="grass-hint"></div>
+                <div class="grass-hint touchable-hint" id="grass-hint"></div>
             </div>
 
             <div id="mark">
@@ -110,21 +110,6 @@
             <div class="clickable" id="painting">
                 <img src="assets/painting.png" alt="Paintings" />
             </div> 
-
-            <div id="intro-dialog" class="dialog-overlay" style="display: none;">
-                <div class="rpg-box intro-box">
-                    <div class="rpg-layout">
-                        <div class="rpg-content">
-                            <h3 id="dialog-name">Summer</h3>
-                            <p id="dialog-text"></p> 
-                            <div class="next-arrow">▼</div>
-                        </div>
-                        <div id="avatar">
-                            <img src="assets/me_big.png" alt="avatar" />
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
          <div id = "outside-layer" style="display:none;">
@@ -134,7 +119,7 @@
                 <img src="assets/exit.png" alt="Exit Sign" />
             </div> 
 
-            <div id="stonecat" class="touchable">
+            <div id="stonecat" class="touchable" data-touchable-hint="Oops you found me..">
                 <img src="assets/stonecat.png" alt="Stone Cat" />
             </div>
 
@@ -142,11 +127,29 @@
                 <img src="assets/fishing.png" alt="Fish" />
             </div>
 
-            <div class="clickable" id="me">
+            <div class="clickable" id="me-outside">
                 <img src="assets/me.png" alt="Me" />
             </div>  
 
+            
+
          </div>
+
+        <!-- Reusable dialog (used by room + outside layer) -->
+        <div id="dialog-overlay" class="dialog-overlay" style="display: none;" aria-label="Dialogue">
+            <div class="rpg-box dialog-box">
+                <div class="rpg-layout">
+                    <div class="rpg-content">
+                        <h3 id="dialog-name">Summer</h3>
+                        <p id="dialog-text"></p> 
+                        <div class="next-arrow">▼</div>
+                    </div>
+                    <div id="dialog-avatar">
+                        <img src="assets/me_big.png" alt="" />
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
         
@@ -302,6 +305,7 @@
         </div>
     </div>
 
+    <script src="helper.js"></script>
     <script src="room.js?v=1.0.1"></script>
     <script src="outside.js?v=1.0.1"></script>
     <script src="mouse.js"></script>
